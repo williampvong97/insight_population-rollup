@@ -1,8 +1,8 @@
 #!/bin/bash
 
-declare -x workdir=$(pwd)
-declare -x src_file="insight_draft.py"
-declare -x src_file=${workdir}/src/${src_file}
+declare -x dir_root=$(pwd)
+declare -x file_src="insight_draft.py"
+declare -x file_src=${workdir}/src/${file_src}
 
 
-python3 ${src_file}
+python3 ${file_src}
