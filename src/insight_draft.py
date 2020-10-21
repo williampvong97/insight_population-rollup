@@ -1,14 +1,14 @@
-import numpy as np
+#import numpy as np
 import os
 from config_insight_draft import filename_input,filename_output
 import csv
 
 
 # File paths
-dir_root=os.getcwd()[:-4]
-dir_input=dir_root+"\input"
-dir_test=dir_root+"\insight_testsuite\\tests\\your-own-test_1\\input"
-dir_output=dir_root+"\output"
+dir_root=os.getcwd()#[:-4]
+dir_input=dir_root+"/input"
+dir_test=dir_root+"/insight_testsuite/tests/your-own-test_1/input"
+dir_output=dir_root+"/output"
 
 
 
@@ -42,15 +42,15 @@ with open(file_input,newline='') as file_input:
 # Processing data #############################################################
 
 placeholder=-1
-arr_report_cbsa09=np.array([placeholder])
+lst_report_cbsa09=[placeholder]
 lst_report_cbsa_t=[[placeholder]]
 lst_report_pop00=[[placeholder]]
 lst_report_pop10=[[placeholder]]
 lst_report_ppchg=[[placeholder]]
 
 
-n=np.size(lst_cbsa09)
-n=66
+n=len(lst_cbsa09)
+#n=66
 for row in range(n):
     
     try:
@@ -86,7 +86,8 @@ for row in range(n):
 
     if type(_cbsa09)!=str:
         try:
-            loc=np.where(arr_report_cbsa09==_cbsa09)[0][0]
+            #loc=np.where(lst_report_cbsa09==_cbsa09)[0][0]
+            loc=lst_report_cbsa09.index(_cbsa09)
         except:
             loc=False
         
@@ -97,7 +98,7 @@ for row in range(n):
             lst_report_ppchg[loc].append(_ppchg)
         
         else:
-            arr_report_cbsa09=np.append(arr_report_cbsa09,_cbsa09)
+            lst_report_cbsa09.append(_cbsa09)
             lst_report_cbsa_t.append([_cbsa_t])
             lst_report_pop00.append([_pop00])
             lst_report_pop10.append([_pop10])
@@ -119,12 +120,17 @@ with open(file_output,'w+',newline='') as f:
     writer=csv.writer(f,delimiter=",")
     
     for rows in range (1,len(lst_report_cbsa_t)):
-        var1=str(arr_report_cbsa09[rows])
+        var1=str(lst_report_cbsa09[rows])
         var2=lst_report_cbsa_t[rows][0]
         var3=str(len(lst_report_pop00[rows]))
         var4=str(int(sum(lst_report_pop00[rows])))
         var5=str(int(sum(lst_report_pop10[rows])))
-        var6=str(np.round(np.mean(lst_report_ppchg[rows]),2))
+        #var6=str(555)#str(np.round(np.mean(lst_report_ppchg[rows]),2))
+        
+        
+        var6="{:.4f}".format(sum(lst_report_ppchg[rows])/len(lst_report_ppchg[rows]))
+        
+        
         
         writer.writerows([[var1,var2,var3,var4,var5,var6]])
 
